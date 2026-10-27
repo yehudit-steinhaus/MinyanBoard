@@ -6,17 +6,20 @@ import SelectFilter from "../components/SelectFilter";
 import { statusLabels, toOptions } from "../labels";
 import type { MinyanStatus } from "../types";
 
-function AdminPage(){
-    const queryClient = useQueryClient();
-}
+// דף המנהל: כל המניינים, בכל הסטטוסים, עם אישור / דחייה / מחיקה
+function AdminPage() {
+  const queryClient = useQueryClient();
 
-const [status,status]=useState<MinyanStatus|"">("Pending")
-const {data:minyanim,isloading,error}=useQuery({
-  queryKey: ["minyanim", "all", status],
+  // ברירת מחדל: רק הממתינים - זה מה שהמנהל צריך לטפל בו
+  const [status, setStatus] = useState<MinyanStatus | "">("Pending");
+
+  const { data: minyanim, isLoading, error } = useQuery({
+    queryKey: ["minyanim", "all", status],
     queryFn: () => getAllMinyanim(status),
-  });  
-  const refresh=()=>queryClient.invalidateQueries({ queryKey: ["minyanim"] });
+  });
 
+  // אחרי כל שינוי: רשימות המניינים בזיכרון כבר לא נכונות => מביאים מחדש
+  const refresh = () => queryClient.invalidateQueries({ queryKey: ["minyanim"] });
 
   const statusMutation = useMutation({
     mutationFn: ({ id, newStatus }: { id: number; newStatus: MinyanStatus }) =>
