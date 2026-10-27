@@ -12,6 +12,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder b)
     {
+        // בענן (PostgreSQL) הטבלאות נמצאות בתיקייה (schema) נפרדת בשם minyanboard,
+        // כדי שלא יתנגשו עם טבלאות של פרויקט אחר באותו מסד נתונים
+        if (Database.IsNpgsql()) b.HasDefaultSchema("minyanboard");
+
         b.Entity<User>(e =>
         {
             e.HasIndex(u => u.Email).IsUnique();

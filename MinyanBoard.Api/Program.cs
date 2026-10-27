@@ -2,6 +2,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -79,7 +81,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     // SQL Server: לפי ה-Migrations. PostgreSQL: יוצר את הטבלאות ישירות מה-Models.
-    if (usePostgres) db.Database.EnsureCreated();
+    if (usePostgres) CreatePostgresTables(db);
     else db.Database.Migrate();
     DbSeeder.Seed(db, app.Configuration);
 }
@@ -105,4 +107,16 @@ static string ToNpgsqlConnectionString(string url)
     var port = uri.Port > 0 ? uri.Port : 5432;
     return $"Host={uri.Host};Port={port};Database={uri.AbsolutePath.TrimStart('/')};" +
            $"Username={Uri.UnescapeDataString(user[0])};Password={Uri.UnescapeDataString(user[1])};SSL Mode=Prefer";
+}
+
+// יוצר את הטבלאות ב-PostgreSQL. אם הן כבר קיימות (מהפעלה קודמת) - ממשיכים הלאה.
+static void CreatePostgresTables(AppDbContext db)
+{
+    try
+    {
+        db.GetService<IRelationalDatabaseCreator>().CreateTables();
+    }
+    catch (Npgsql.PostgresException e) when (e.SqlState == "42P07") // 42P07 = הטבלה כבר קיימת
+    {
+    }
 }
