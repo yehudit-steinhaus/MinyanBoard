@@ -65,7 +65,7 @@ function MinyanForm({ existing }: MinyanFormProps) {
       </FormField>
 
       <FormField label="שעה" error={errors.time?.message}>
-        <input type="time" {...register("time", { required: "יש להזין שעה" })} />
+        <input type="time" dir="ltr" {...register("time", { required: "יש להזין שעה" })} />
       </FormField>
 
       <FormField label="הערות" error={errors.notes?.message}>
