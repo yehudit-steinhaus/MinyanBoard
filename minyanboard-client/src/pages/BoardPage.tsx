@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getBoard } from "../api/minyanim";
 import { useSynagogues } from "../hooks/useSynagogues";
+import Hero from "../components/Hero";
+import SynagogueCards from "../components/SynagogueCards";
 import MinyanTable from "../components/MinyanTable";
 import SelectFilter from "../components/SelectFilter";
 import { dayLabels, prayerLabels, toOptions } from "../labels";
@@ -25,8 +27,18 @@ function BoardPage() {
 
   return (
     <div>
-      <h2>לוח מניינים</h2>
+      <Hero />
 
+      <h2>בתי הכנסת</h2>
+      {synagogues && (
+        <SynagogueCards
+          synagogues={synagogues}
+          selectedId={filters.synagogueId}
+          onSelect={(id) => setFilters({ ...filters, synagogueId: id })}
+        />
+      )}
+
+      <h2>לוח מניינים</h2>
       <div className="filters">
         <SelectFilter
           value={filters.prayer}
@@ -48,7 +60,7 @@ function BoardPage() {
         />
       </div>
 
-      {isLoading && <p>טוען...</p>}
+      {isLoading && <p aria-busy="true">טוען...</p>}
       {error && <p className="error">{error.message}</p>}
       {minyanim && <MinyanTable minyanim={minyanim} />}
     </div>

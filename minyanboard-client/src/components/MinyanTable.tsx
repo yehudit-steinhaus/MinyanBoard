@@ -32,7 +32,12 @@ function MinyanTable({ minyanim, showStatus = false, actions }: MinyanTableProps
             <td>{dayLabels[m.days]}</td>
             <td>{formatTime(m.time)}</td>
             <td>{m.notes}</td>
-            {showStatus && <td>{statusLabels[m.status]}</td>}
+            {showStatus && (
+              <td>
+                {/* תגית צבעונית לפי הסטטוס: badge-pending / badge-approved / badge-rejected */}
+                <span className={`badge badge-${m.status.toLowerCase()}`}>{statusLabels[m.status]}</span>
+              </td>
+            )}
             {actions && <td>{actions(m)}</td>}
           </tr>
         ))}

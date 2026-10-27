@@ -1,178 +1,218 @@
-/* ===== עיצוב כללי לכל האתר ===== */
+/* ===== העיצוב שלנו, מעל ספריית Pico CSS =====
+   Pico נותנת עיצוב בסיסי יפה לתגיות HTML (טפסים, כפתורים, טבלאות, כרטיסים).
+   כאן משנים את הצבעים שלה ומוסיפים עיצוב לרכיבים שלנו. */
 
 :root {
-  --primary: #1f4e79;        /* כחול כהה - כותרות, תפריט, כפתורים */
-  --primary-light: #e8f0f8;  /* רקע בהיר לשורות ולמסגרות */
-  --text: #222;
-  --muted: #666;
-  --border: #d6dde5;
-  --danger: #b3261e;
-  --bg: #f5f7fa;
-}
+  /* הצבעים של Pico - מחליפים לכחול כהה */
+  --pico-primary: #1f4e79;
+  --pico-primary-background: #1f4e79;
+  --pico-primary-border: #1f4e79;
+  --pico-primary-hover: #163a5c;
+  --pico-primary-hover-background: #163a5c;
+  --pico-primary-hover-border: #163a5c;
+  --pico-primary-focus: rgba(31, 78, 121, 0.25);
+  --pico-font-family: "Segoe UI", Arial, sans-serif;
+  --pico-border-radius: 0.6rem;
 
-* {
-  box-sizing: border-box;
+  /* צבעים שלנו */
+  --gold: #f6d365;
+  --light: #e8f0f8;
+  --page-bg: #f3f6fa;
+  --danger: #b3261e;
 }
 
 body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  font-size: 16px;
-  color: var(--text);
-  background: var(--bg);
+  background: var(--page-bg);
 }
 
 /* ===== תפריט עליון ===== */
 nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px 24px;
-  background: var(--primary);
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #1f4e79, #2c6aa3);
   color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
 }
 
 nav a:hover,
 nav a.active {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 nav button {
-  margin-inline-start: 8px;
+  width: auto;
+  margin: 0 0.5rem 0 0;
+  padding: 0.3rem 0.9rem;
   background: white;
-  color: var(--primary);
+  color: #1f4e79;
+  border: none;
+  font-size: 0.9rem;
 }
 
 /* ===== אזור התוכן ===== */
 main {
-  max-width: 960px;
-  margin: 24px auto;
-  padding: 24px;
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 1.5rem 2rem;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 4px 18px rgba(31, 78, 121, 0.08);
 }
 
+h1,
 h2 {
-  margin-top: 0;
-  color: var(--primary);
+  color: #1f4e79;
 }
 
-a {
-  color: var(--primary);
+/* ===== כרזה בראש הלוח ===== */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--light), #fffaf0);
 }
 
-/* ===== כפתורים ===== */
-button {
-  font: inherit;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 6px;
-  background: var(--primary);
-  color: white;
-  cursor: pointer;
+.hero h1 {
+  margin-bottom: 0.5rem;
 }
 
-button:hover:not(:disabled) {
-  opacity: 0.88;
+.hero p {
+  margin: 0;
+  color: #444;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
+.hero img {
+  width: 100%;
+  border-radius: 0.8rem;
 }
 
-/* כפתורים בתוך טבלה - קטנים ועם רווח ביניהם */
-td button {
-  margin-inline-end: 6px;
-  padding: 4px 10px;
-  font-size: 14px;
+/* ===== כרטיסי בתי כנסת ===== */
+.synagogue-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* ===== טפסים ===== */
-form {
-  max-width: 420px;
-}
-
-.form-field {
-  margin-bottom: 16px;
-}
-
-.form-field label {
+.synagogue-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-weight: 600;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0.8rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s, border-color 0.15s;
 }
 
-input,
-select {
-  font: inherit;
-  font-weight: normal;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: white;
+.synagogue-card:hover {
+  transform: translateY(-3px);
 }
 
-input:focus,
-select:focus {
-  outline: 2px solid var(--primary-light);
-  border-color: var(--primary);
+.synagogue-card.selected {
+  border-color: #1f4e79;
 }
 
-/* הודעות שגיאה - בשדה ומהשרת */
-.error {
-  display: block;
-  margin-top: 4px;
-  color: var(--danger);
-  font-size: 14px;
+.synagogue-card img {
+  border-radius: 0.5rem;
+}
+
+.synagogue-card small {
+  color: #666;
 }
 
 /* ===== סינון ===== */
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-/* ===== טבלת מניינים ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
+.filters select {
+  flex: 1;
+  min-width: 150px;
+  margin: 0;
 }
 
-th,
-td {
-  padding: 10px 12px;
-  text-align: right;
-  border-bottom: 1px solid var(--border);
+/* ===== טפסים ===== */
+form {
+  max-width: 440px;
 }
 
+.error {
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+/* ===== טבלה ===== */
 th {
-  background: var(--primary-light);
-  color: var(--primary);
+  color: #1f4e79;
+  font-weight: 700;
 }
 
-tbody tr:hover {
-  background: #fafcff;
+td button {
+  width: auto;
+  margin: 0 0 0 0.4rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+/* ===== תגיות סטטוס ===== */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge-pending {
+  background: #fff4d6;
+  color: #8a6100;
+}
+
+.badge-approved {
+  background: #e3f4e3;
+  color: #1e6b2a;
+}
+
+.badge-rejected {
+  background: #fbe4e4;
+  color: var(--danger);
 }
 
 /* ===== מסכים קטנים (טלפון) ===== */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   main {
     margin: 0;
+    padding: 1rem;
     border-radius: 0;
-    padding: 16px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
   }
 
   table {

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import '@picocss/pico/css/pico.min.css' // ספריית העיצוב Pico CSS
+import './index.css' // העיצוב שלנו - מעל Pico
 import App from './App.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './context/AuthContext'
